@@ -1,8 +1,8 @@
 require './model/main'
 
 
-SOURCE = File.dirname(__FILE__) + '/orders.csv'
-TARGET = File.dirname(__FILE__) + '/result.csv'
+SOURCE = File.dirname(__FILE__) + '/input.csv'
+TARGET = File.dirname(__FILE__) + '/output.csv'
 
 puts "輸入檔案： #{SOURCE}"
 puts '開始運算...'
