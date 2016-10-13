@@ -23,6 +23,10 @@ class Group
     @category
   end
 
+  def capacity
+    @capacity
+  end
+
   # :morning
   # :afternoon_a
   # :afternoon_b

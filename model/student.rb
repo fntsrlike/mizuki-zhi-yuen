@@ -8,6 +8,7 @@ class Student
     @bus = ''
 
     @orders = structure.row_to_orders(row)
+    @orders_backup = Array.new(orders)
     @groups = []
   end
 
@@ -27,8 +28,16 @@ class Student
     @number
   end
 
+  def groups
+    @groups
+  end
+
   def orders
     @orders
+  end
+
+  def orders_backup
+    @orders_backup
   end
 
   def bus
@@ -37,6 +46,10 @@ class Student
 
   def bus=(bus)
     @bus = bus
+  end
+
+  def distributed?
+    @groups.size >= 2
   end
 
   def group_on(period)

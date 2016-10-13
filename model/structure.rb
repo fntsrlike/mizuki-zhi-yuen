@@ -69,8 +69,9 @@
       group_name = get_name_of_group(index)
       orders.insert(order, @groups[group_name])
     end
-
-    orders.compact
+    orders = orders.compact
+    raise "志願序解析失敗" if orders.size != data.size
+    orders
   end
 
   def column_to_group (column)

@@ -23,6 +23,7 @@ class Main
     @echelon.distribute_order
     @echelon.distribute_order
     @echelon.distribute_car
+    @echelon.validate
   end
 
   def export(output)
