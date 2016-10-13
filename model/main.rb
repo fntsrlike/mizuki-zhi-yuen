@@ -3,6 +3,7 @@ require_relative './echelon'
 require_relative './group'
 require_relative './student'
 require_relative './structure'
+require_relative './header_error'
 require_relative './data_error'
 
 class Main
@@ -12,13 +13,10 @@ class Main
   def initialize(source)
     # Input
     @students = {}
-    @counter = 1
+    @counter = 0
 
-    begin
-      fetch_data(source)
-    rescue DataError => message
-      puts "第 #{@counter} 列的資料發生錯誤： #{message}"
-    end
+
+    fetch_data(source)
 
     # Calculate
     @echelon = Echelon.new(@structure, @students, NUM_OF_CARS)
@@ -47,19 +45,32 @@ class Main
 
   def fetch_data(source)
     CSV.foreach(source, encoding: 'big5:utf-8') do |row|
-      if @counter  === 1
-        @structure = Structure.new(row)
+      begin
         @counter += 1
-        next
+
+        if @counter  === 1
+          @structure = Structure.new(row)
+          next
+        end
+
+        parse_data(row)
+      rescue HeaderError => message
+        puts "[錯誤][標題列]： #{message}"
+        puts "程序終止..."
+        exit
+      rescue DataError => message
+        puts "[警告][第 #{@counter} 列]： #{message}"
       end
-
-      student = Student.new(row, @structure)
-
-      raise DataError, "學生資料重複" if @students.has_key?(student.id)
-
-      @students[student.id] = student
-      @counter += 1
-      next
     end
+  end
+
+  def parse_data(row)
+    raise DataError, "班級欄為空，視為空行" if row[0].to_s.empty?
+
+    student = Student.new(row, @structure)
+    raise DataError, "學生資料重複，不予分析" if @students.has_key?(student.id)
+
+    @students[student.id] = student
+
   end
 end

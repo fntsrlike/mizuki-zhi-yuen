@@ -75,7 +75,7 @@
 
   def column_to_group (column)
     data = column.to_s.match(/(\D+)(\d?)\((\W+)(\w?)\)/)
-    raise DataError, '志願序欄位名稱定義有誤' if data.nil?
+    raise HeaderError , '志願序欄位名稱定義有誤' if data.nil?
 
     category = data[1]
     name = data[1] + data[2]
@@ -85,7 +85,7 @@
     if period_time === '早'
       period = :morning
     else
-      raise DataError, "欄位「#{column}」沒有定義下午的類別！" if period_type.empty?
+      raise HeaderError , "欄位「#{column}」沒有定義下午的類別！" if period_type.empty?
       period = "afternoon_#{period_type}".to_sym
     end
 
