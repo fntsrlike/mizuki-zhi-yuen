@@ -1,5 +1,5 @@
 class Echelon
-  PASSENGERS_PER_CAR = 36
+  PASSENGERS_PER_BUS = 38
 
   def initialize(structure, students, car_number)
     @structure = structure
@@ -79,7 +79,7 @@ class Echelon
           # 將學生放入未滿的車輛中
           buses = place_buses_hash[place]
           buses.each do |bus_number, bus_capacity|
-            next if bus_capacity.size >= PASSENGERS_PER_CAR
+            next if bus_capacity.size >= PASSENGERS_PER_BUS
 
             student.bus = bus_number
             bus_capacity.push(student)
