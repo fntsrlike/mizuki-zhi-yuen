@@ -55,7 +55,7 @@ class Main
 
       student = Student.new(row, @structure)
 
-      raise DataError, "第 #{counter} 列的學生資料重複" if @students.has_key?(student.id)
+      raise DataError, "學生資料重複" if @students.has_key?(student.id)
 
       @students[student.id] = student
       @counter += 1
