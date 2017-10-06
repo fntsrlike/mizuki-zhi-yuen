@@ -26,20 +26,49 @@ class Main
     @echelon.validate
   end
 
+  def log()
+    puts '組別資訊如下：'
+    @echelon.groups.each do |_, group|
+      msg = "#{group.id} \t基本限額 #{group.capacity}，已登記 #{group.number} 名學生。"
+
+      if group.number > group.capacity
+        msg += "多 #{group.number - group.capacity} 名學生。"
+      elsif  group.number < group.capacity
+        msg += "未滿，尚能登記 #{group.capacity - group.number} 名學生。"
+      end
+
+      puts(msg)
+    end
+
+    puts ''
+    puts '車位資訊如下：'
+    @echelon.buses.each do |no, bus|
+      puts "#{no} 號車，已登記 #{bus.size} 名學生"
+    end
+
+  end
+
   def export(output)
     CSV.open(output, "wb", encoding: 'big5') do |csv|
       header = ['班級', '座號', '姓名', '上午組別', '下午組別', '車次']
       csv << header
-      @students.each do |_, student|
-        row = [
-            student.class,
-            student.number,
-            student.name,
-            student.group_on(:morning).name,
-            student.group_on(:afternoon).name,
-            student.bus
-        ]
-        csv << row
+
+      @students.each do |id, student|
+        begin
+          row = [
+              student.class,
+              student.number,
+              student.name,
+              student.group_on(:morning).name,
+              student.group_on(:afternoon).name,
+              student.bus
+          ]
+          csv << row
+        rescue => message
+          student.name
+          puts "#{id} 資料有誤，不會存入輸出資料中 (#{message})"
+          next
+        end
       end
     end
   end
@@ -72,6 +101,5 @@ class Main
     raise DataError, "學生資料重複，不予分析" if @students.has_key?(student.id)
 
     @students[student.id] = student
-
   end
 end

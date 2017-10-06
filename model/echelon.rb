@@ -1,5 +1,5 @@
 class Echelon
-  PASSENGERS_PER_BUS = 36
+  PASSENGERS_PER_BUS = 38
 
   def initialize(structure, students, bus_number)
     @structure = structure
@@ -60,11 +60,26 @@ class Echelon
     end
   end
 
+  def buses
+    buses = {}
+    @place_buses_hash.each do |_, place|
+      place.each do |no, bus|
+        buses[no] = bus
+      end
+    end
+
+    buses
+  end
+
+  def groups
+    @groups
+  end
+
   def distribute_order
     @students.each do |_, student|
+      counter = student.groups.size
       orders = Array.new(student.orders)
       orders.each do |group|
-        next if orders.nil?
         next if student.distributed_on? group.period
         next if student.has_elective_category?(group.category)
         next if is_place_full? (group.place)
@@ -83,10 +98,19 @@ class Echelon
         student.orders.shift
         break
       end
+      puts "#{student.id} 分發志願失敗" if counter === student.groups.size
     end
   end
 
   def validate
+    @students.each do |id, student|
+      if student.group_on(:morning).nil?
+        student.elective(Group.new('-', '-', '-'))
+      end
+      if student.group_on(:afternoon).nil?
+        student.elective(Group.new('-', '-', '-'))
+      end
+    end
   end
 
   def distribute_car

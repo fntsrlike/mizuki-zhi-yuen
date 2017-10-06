@@ -3,7 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/input.csv" charset="Big5" />
     <file url="file://$PROJECT_DIR$/output.csv" charset="Big5" />
-    <file url="file://$PROJECT_DIR$/result.csv" charset="Big5" />
-    <file url="file://$PROJECT_DIR$/國二技參統計志願及車次.csv" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/output2.csv" charset="Big5" />
   </component>
 </project>

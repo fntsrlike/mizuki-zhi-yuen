@@ -7,6 +7,13 @@ class Group
     @students = []
   end
 
+  def id
+    place = "早" if @place === :morning
+    place = "午A" if @place === :afternoon_a
+    place = "午B" if @place === :afternoon_b
+    "#{@name} \t(#{place})"
+  end
+
   def number
     @students.size
   end

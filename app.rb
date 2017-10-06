@@ -1,14 +1,17 @@
 require './model/main'
 
+SOURCE = File.join(__dir__, 'input.csv')
+TARGET = File.join(__dir__, 'output.csv')
 
-SOURCE = File.dirname(__FILE__) + '/input.csv'
-TARGET = File.dirname(__FILE__) + '/output.csv'
-
-puts "輸入檔案： #{SOURCE}"
-puts '開始運算...'
+puts "Loading input file... #{SOURCE}"
+puts 'Calculating...'
 
 main = Main.new(SOURCE)
+main.log
 main.export(TARGET)
 
-puts "執行完畢，請查看檔案： #{TARGET} "
+puts 'Done!'
+puts "To check the output file: #{TARGET} "
+puts ''
+puts 'Press any key to finish the program...'
 gets
